@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BonusPerMe — Scopri i bonus a cui hai diritto</title>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+/* ============================================
+   BONUSPERME — DESIGN SYSTEM v2
+   Warm Institutional + Icons + Flag Dropdown
+   ============================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --ink: #1C1C1F;
+    --ink-75: #404045;
+    --ink-50: #76767C;
+    --ink-30: #A8A8AD;
+    --ink-15: #D4D4D7;
+    --ink-05: #F0F0F1;
+
+    --warm-white: #FAFAF7;
+    --warm-cream: #F4F3EE;
+    --warm-sand: #EAE8E0;
+
+    --blue: #1B3A54;
+    --blue-mid: #2D5F8A;
+    --blue-light: #E6EEF4;
+    --blue-glow: #D0E2F0;
+
+    --terra: #C0522E;
+    --terra-dark: #9E3F20;
+    --terra-light: #FAF0EB;
+    --terra-glow: #F5DDD1;
+
+    --green: #2A6B45;
+    --green-light: #E8F3EC;
+
+    --amber: #9A7B2E;
+    --amber-light: #FBF5E6;
+
+    --radius: 5px;
+    --radius-lg: 8px;
+    --shadow-subtle: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-hover: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+    --shadow-dropdown: 0 4px 20px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.06);
+
+    --max-w: 1040px;
+    --gutter: 24px;
+}
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--warm-white);
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Typography */
+h1, h2, h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; }
+h1 { font-size: clamp(2rem, 4.5vw, 2.75rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; color: var(--ink); }
+h3 { font-size: 1.05rem; line-height: 1.35; }
+
+.label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+a { color: var(--blue-mid); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============================================
+   INLINE SVG ICON SYSTEM
+   ============================================ */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.icon svg {
+    width: 100%;
+    height: 100%;
+}
+.icon-sm { width: 16px; height: 16px; }
+.icon-lg { width: 24px; height: 24px; }
+.icon-xl { width: 32px; height: 32px; }
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+.btn-primary {
+    background: var(--terra);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--terra-dark);
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(192,82,46,0.25);
+}
+.btn-outline {
+    background: transparent;
+    color: var(--terra);
+    border: 1.5px solid var(--terra);
+}
+.btn-outline:hover {
+    background: var(--terra-light);
+    text-decoration: none;
+}
+
+/* ============================================
+   TOPBAR
+   ============================================ */
+.topbar {
+    background: var(--blue);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.72rem;
+    padding: 7px 0;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+.topbar span { opacity: 0.5; margin: 0 8px; }
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+    background: #fff;
+    border-bottom: 1px solid var(--ink-15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+}
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+}
+.logo-mark {
+    width: 26px;
+    height: 26px;
+    background: var(--blue);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    line-height: 1;
+}
+.logo-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+}
+.header-badges {
+    display: flex;
+    gap: 8px;
+    padding-left: 14px;
+    border-left: 1px solid var(--ink-15);
+}
+.header-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+}
+.header-badge .icon { width: 12px; height: 12px; color: var(--ink-30); }
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ============================================
+   LANGUAGE DROPDOWN WITH FLAGS
+   ============================================ */
+.lang-dropdown-wrap {
+    position: relative;
+}
+.lang-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius);
+    background: #fff;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-75);
+    transition: all 0.15s;
+}
+.lang-trigger:hover {
+    border-color: var(--ink-30);
+    background: var(--ink-05);
+}
+.lang-trigger .flag {
+    width: 18px;
+    height: 13px;
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: block;
+    background-size: cover;
+    background-position: center;
+}
+.lang-trigger .chevron {
+    width: 10px;
+    height: 10px;
+    color: var(--ink-30);
+    transition: transform 0.15s;
+}
+.lang-dropdown-wrap.open .lang-trigger .chevron {
+    transform: rotate(180deg);
+}
+.lang-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-dropdown);
+    min-width: 160px;
+    padding: 4px 0;
+    z-index: 200;
+}
+.lang-dropdown-wrap.open .lang-dropdown {
+    display: block;
+}
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--ink-75);
+    transition: background 0.1s;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+}
+.lang-option:hover {
+    background: var(--ink-05);
+}
+.lang-option.active {
+    color: var(--blue);
+    font-weight: 600;
+    background: var(--blue-light);
+}
+.lang-option .flag {
+    width: 18px;
+    height: 13px;
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: block;
+    background-size: cover;
+    background-position: center;
+}
+.lang-option .check {
+    margin-left: auto;
+    width: 14px;
+    height: 14px;
+    color: var(--blue);
+    opacity: 0;
+}
+.lang-option.active .check {
+    opacity: 1;
+}
+
+/* Flag backgrounds using inline SVGs encoded as data URIs for zero network requests */
+.flag-it { background: linear-gradient(90deg, #009246 33.3%, #fff 33.3%, #fff 66.6%, #CE2B37 66.6%); }
+.flag-en { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Crect fill='%23012169' width='60' height='30'/%3E%3Cpath d='M0 0L60 30M60 0L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0 0L60 30M60 0L0 30' stroke='%23C8102E' stroke-width='4' clip-path='polygon(30 0,60 0,30 15,60 30,30 30,0 30,30 15,0 0)'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/svg%3E") center/cover; }
+.flag-fr { background: linear-gradient(90deg, #002395 33.3%, #fff 33.3%, #fff 66.6%, #ED2939 66.6%); }
+.flag-es { background: linear-gradient(180deg, #AA151B 25%, #F1BF00 25%, #F1BF00 75%, #AA151B 75%); }
+.flag-ro { background: linear-gradient(90deg, #002B7F 33.3%, #FCD116 33.3%, #FCD116 66.6%, #CE1126 66.6%); }
+.flag-ar { background: linear-gradient(180deg, #000 33.3%, #fff 33.3%, #fff 66.6%, #007A3D 66.6%); position: relative; }
+.flag-sq { background: #E41E20; }
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+    background: var(--warm-cream);
+    padding: 72px 0 64px;
+    border-bottom: 1px solid var(--warm-sand);
+}
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 56px;
+    align-items: start;
+}
+.hero-pretitle {
+    color: var(--terra);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.hero-pretitle .icon { color: var(--terra); }
+.hero h1 { margin-bottom: 20px; }
+.hero-subtitle {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--ink-75);
+    max-width: 480px;
+    margin-bottom: 32px;
+}
+.hero-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+.hero-meta {
+    font-size: 0.78rem;
+    color: var(--ink-50);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.hero-meta-item .icon { width: 14px; height: 14px; color: var(--ink-30); }
+
+/* Proof card */
+.proof-card {
+    background: #fff;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-card);
+}
+.proof-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--blue);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.proof-label {
+    font-size: 0.82rem;
+    color: var(--ink-50);
+    margin-bottom: 24px;
+}
+.proof-divider {
+    border: none;
+    border-top: 1px solid var(--ink-15);
+    margin: 0 0 24px;
+}
+.proof-quote {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-75);
+    margin-bottom: 12px;
+}
+.proof-source {
+    font-size: 0.7rem;
+    color: var(--ink-30);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.proof-source .icon { width: 12px; height: 12px; }
+
+/* ============================================
+   QUICK ESTIMATE
+   ============================================ */
+.estimate {
+    padding: 56px 0;
+    background: #fff;
+    border-bottom: 1px solid var(--ink-15);
+}
+.estimate-inner {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: center;
+}
+.estimate-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+.estimate-title h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+.estimate-title .icon { color: var(--green); }
+.estimate-sub {
+    font-size: 0.85rem;
+    color: var(--ink-50);
+    margin-bottom: 24px;
+}
+.estimate-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.estimate-field label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    margin-bottom: 6px;
+    text-align: left;
+}
+.estimate-field label .icon { width: 13px; height: 13px; color: var(--ink-30); }
+.estimate-field select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius);
+    padding: 0 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    background: #fff;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2376767C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+.estimate-field select:focus {
+    outline: none;
+    border-color: var(--blue-mid);
+    box-shadow: 0 0 0 3px var(--blue-glow);
+}
+.estimate-result {
+    background: var(--green-light);
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+.estimate-result .icon { color: var(--green); width: 22px; height: 22px; }
+.estimate-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--green);
+}
+.estimate-note {
+    font-size: 0.72rem;
+    color: var(--ink-50);
+    margin-top: 12px;
+}
+
+/* ============================================
+   HOW IT WORKS
+   ============================================ */
+.how {
+    padding: 80px 0;
+    background: var(--warm-cream);
+    border-bottom: 1px solid var(--warm-sand);
+}
+.section-header {
+    margin-bottom: 48px;
+}
+.section-header h2 { margin-bottom: 8px; }
+.section-header p { font-size: 0.92rem; color: var(--ink-50); }
+
+.how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.how-card {
+    background: #fff;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.how-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+.how-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.how-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--blue);
+    opacity: 0.6;
+}
+.how-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.how-card-icon.step-1 { background: var(--terra-light); color: var(--terra); }
+.how-card-icon.step-2 { background: var(--blue-light); color: var(--blue); }
+.how-card-icon.step-3 { background: var(--green-light); color: var(--green); }
+.how-card-icon.step-4 { background: var(--amber-light); color: var(--amber); }
+.how-card-icon .icon { width: 18px; height: 18px; }
+
+.how-card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ink);
+}
+.how-card p {
+    font-size: 0.82rem;
+    color: var(--ink-50);
+    line-height: 1.55;
+}
+
+/* ============================================
+   NEWS
+   ============================================ */
+.news {
+    padding: 80px 0;
+    background: #fff;
+    border-bottom: 1px solid var(--ink-15);
+}
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.news-card {
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: relative;
+    transition: box-shadow 0.2s;
+}
+.news-card:hover { box-shadow: var(--shadow-card); }
+.news-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+}
+.news-badge .icon { width: 11px; height: 11px; }
+.news-badge.nuovo {
+    background: var(--blue-light);
+    color: var(--blue);
+}
+.news-badge.modificato {
+    background: var(--amber-light);
+    color: var(--amber);
+}
+.news-card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+.news-card p {
+    font-size: 0.82rem;
+    color: var(--ink-50);
+    line-height: 1.55;
+}
+
+/* ============================================
+   TESTIMONIALS
+   ============================================ */
+.testimonials {
+    padding: 80px 0;
+    background: var(--warm-cream);
+    border-bottom: 1px solid var(--warm-sand);
+}
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.test-card {
+    background: #fff;
+    border: 1px solid var(--ink-15);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+}
+.test-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 14px;
+}
+.test-stars .icon { width: 14px; height: 14px; color: var(--amber); }
+.test-quote {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-75);
+    margin-bottom: 20px;
+}
+.test-divider {
+    border: none;
+    border-top: 1px solid var(--ink-15);
+    margin: 0 0 16px;
+}
+.test-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.test-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+}
+.test-avatar .icon { width: 16px; height: 16px; }
+.test-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--ink);
+}
+.test-info {
+    font-size: 0.75rem;
+    color: var(--ink-30);
+}
+
+/* ============================================
+   PRIVACY BAR
+   ============================================ */
+.privacy {
+    background: var(--blue);
+    color: #fff;
+    padding: 64px 0;
+}
+.privacy h2 {
+    color: #fff;
+    margin-bottom: 40px;
+}
+.privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+.privacy-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: rgba(255,255,255,0.85);
+}
+.privacy-icon .icon { width: 20px; height: 20px; }
+.privacy-item h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+.privacy-item p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+}
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+.cta-section {
+    padding: 80px 0;
+    text-align: center;
+    background: var(--warm-cream);
+    border-bottom: 1px solid var(--warm-sand);
+}
+.cta-section h2 { margin-bottom: 12px; }
+.cta-section p {
+    font-size: 0.95rem;
+    color: var(--ink-50);
+    margin-bottom: 32px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    background: var(--warm-cream);
+    border-top: 1px solid var(--warm-sand);
+    padding: 32px 0;
+}
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+.footer-left p {
+    font-size: 0.78rem;
+    color: var(--ink-50);
+    line-height: 1.6;
+    max-width: 400px;
+}
+.footer-left .logo { margin-bottom: 12px; }
+.footer-right { text-align: right; }
+.footer-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    justify-content: flex-end;
+}
+.footer-links a {
+    font-size: 0.78rem;
+    color: var(--ink-50);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.footer-links a .icon { width: 14px; height: 14px; }
+.footer-links a:hover { color: var(--ink); }
+.footer-badges {
+    font-size: 0.68rem;
+    color: var(--ink-30);
+}
+.footer-badges span { margin: 0 4px; opacity: 0.4; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .proof-card { max-width: 400px; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .news-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+    :root { --gutter: 20px; }
+    .topbar { display: none; }
+    .header-badges { display: none; }
+    .hero { padding: 48px 0 40px; }
+    .how-grid, .news-grid, .testimonials-grid, .privacy-grid { grid-template-columns: 1fr; }
+    .estimate-row { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; gap: 24px; }
+    .footer-right { text-align: left; }
+    .footer-links { justify-content: flex-start; }
+    section, .how, .news, .testimonials, .privacy, .cta-section { padding: 56px 0; }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * {
+    animation: fadeUp 0.5s ease both;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.08s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.16s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.24s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.32s; }
+.proof-card { animation: fadeUp 0.5s ease 0.2s both; }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     SVG ICON SPRITE (hidden, referenced via <use>)
+     ============================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </symbol>
+    <symbol id="ico-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="ico-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="ico-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+    </symbol>
+    <symbol id="ico-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="ico-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+    </symbol>
+    <symbol id="ico-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+    </symbol>
+    <symbol id="ico-calc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="16" y2="18"/>
+    </symbol>
+    <symbol id="ico-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="ico-database-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><line x1="2" y1="2" x2="22" y2="22"/>
+    </symbol>
+    <symbol id="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+    </symbol>
+    <symbol id="ico-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+    </symbol>
+    <symbol id="ico-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+    <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </symbol>
+    <symbol id="ico-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+    </symbol>
+    <symbol id="ico-github" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    </symbol>
+    <symbol id="ico-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </symbol>
+    <symbol id="ico-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+    </symbol>
+    <symbol id="ico-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+    </symbol>
+    <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </symbol>
+    <symbol id="ico-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="6" width="22" height="16" rx="2"/><path d="M1 10h22"/><path d="M1 6l5-4h12l5 4"/>
+    </symbol>
+</svg>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    Servizio gratuito <span>·</span> Nessun dato salvato <span>·</span> Dati aggiornati 2025
+</div>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container header-inner">
+        <div class="header-left">
+            <a href="/" class="logo">
+                <div class="logo-mark">B</div>
+                <span class="logo-text">BonusPerMe</span>
+            </a>
+            <div class="header-badges">
+                <span class="header-badge">
+                    <span class="icon"><svg><use href="#ico-shield"/></svg></span> GDPR
+                </span>
+                <span class="header-badge">
+                    <span class="icon"><svg><use href="#ico-eye-off"/></svg></span> Zero tracking
+                </span>
+            </div>
+        </div>
+        <div class="header-right">
+            <!-- Language Dropdown -->
+            <div class="lang-dropdown-wrap" id="langWrap">
+                <button class="lang-trigger" onclick="toggleLangDropdown()" aria-haspopup="true" aria-expanded="false" id="langTrigger">
+                    <span class="flag flag-it" id="langFlag"></span>
+                    <span id="langLabel">IT</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-dropdown" id="langDropdown" role="listbox">
+                    <button class="lang-option active" data-lang="it" onclick="selectLang('it')" role="option">
+                        <span class="flag flag-it"></span> Italiano
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="en" onclick="selectLang('en')" role="option">
+                        <span class="flag flag-en"></span> English
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="fr" onclick="selectLang('fr')" role="option">
+                        <span class="flag flag-fr"></span> Français
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="es" onclick="selectLang('es')" role="option">
+                        <span class="flag flag-es"></span> Español
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="ro" onclick="selectLang('ro')" role="option">
+                        <span class="flag flag-ro"></span> Română
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="ar" onclick="selectLang('ar')" role="option">
+                        <span class="flag flag-ar"></span> العربية
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="lang-option" data-lang="sq" onclick="selectLang('sq')" role="option">
+                        <span class="flag flag-sq"></span> Shqip
+                        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <div class="label hero-pretitle">
+                <span class="icon icon-sm"><svg><use href="#ico-check-circle"/></svg></span>
+                Verifica gratuita
+            </div>
+            <h1>Scopri in 2 minuti a quali bonus hai diritto</h1>
+            <p class="hero-subtitle">
+                Confrontiamo la tua situazione con oltre 40 bonus statali e regionali attivi in Italia.
+                Gratis, anonimo, senza registrazione.
+            </p>
+            <div class="hero-cta-row">
+                <a href="#wizard" class="btn btn-primary">
+                    Inizia la verifica
+                    <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
+                </a>
+            </div>
+            <div class="hero-meta">
+                <span class="hero-meta-item">
+                    <span class="icon"><svg><use href="#ico-clock"/></svg></span> 2 minuti
+                </span>
+                <span class="hero-meta-item">
+                    <span class="icon"><svg><use href="#ico-edit"/></svg></span> 4 domande
+                </span>
+                <span class="hero-meta-item">
+                    <span class="icon"><svg><use href="#ico-shield"/></svg></span> Nessuna registrazione
+                </span>
+            </div>
+        </div>
+
+        <div class="proof-card">
+            <div class="proof-number">14.335</div>
+            <div class="proof-label">verifiche effettuate</div>
+            <hr class="proof-divider">
+            <p class="proof-quote">
+                Secondo i dati INPS, ogni anno restano non richiesti
+                circa 2,1 miliardi di euro in bonus familiari.
+            </p>
+            <p class="proof-source">
+                <span class="icon"><svg><use href="#ico-file-text"/></svg></span>
+                Fonte: Osservatorio INPS sull'Assegno Unico, 2025
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- QUICK ESTIMATE -->
+<section class="estimate">
+    <div class="container estimate-inner">
+        <div class="estimate-title">
+            <span class="icon icon-lg"><svg><use href="#ico-calc"/></svg></span>
+            <h3>Stima veloce</h3>
+        </div>
+        <p class="estimate-sub">Quanto potresti ricevere ogni anno?</p>
+        <div class="estimate-row">
+            <div class="estimate-field">
+                <label>
+                    <span class="icon"><svg><use href="#ico-users"/></svg></span>
+                    Numero figli
+                </label>
+                <select id="est-figli">
+                    <option value="0">Nessun figlio</option>
+                    <option value="1">1 figlio</option>
+                    <option value="2" selected>2 figli</option>
+                    <option value="3">3 figli</option>
+                    <option value="4">4+ figli</option>
+                </select>
+            </div>
+            <div class="estimate-field">
+                <label>
+                    <span class="icon"><svg><use href="#ico-wallet"/></svg></span>
+                    Fascia ISEE
+                </label>
+                <select id="est-isee">
+                    <option value="sotto15k" selected>Sotto €15.000</option>
+                    <option value="15-25k">€15.000 — €25.000</option>
+                    <option value="25-40k">€25.000 — €40.000</option>
+                    <option value="sopra40k">Sopra €40.000</option>
+                    <option value="noisee">Non ho l'ISEE</option>
+                </select>
+            </div>
+        </div>
+        <div class="estimate-result">
+            <span class="icon"><svg><use href="#ico-check-circle"/></svg></span>
+            <div class="estimate-amount" id="est-result">Fino a €8.400/anno</div>
+        </div>
+        <p class="estimate-note">Stima indicativa basata su dati medi nazionali · Verifica con i tuoi dati reali</p>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+    <div class="container">
+        <div class="section-header">
+            <h2>Come funziona</h2>
+            <p>Dalla verifica al CAF in 4 passaggi.</p>
+        </div>
+        <div class="how-grid">
+            <div class="how-card">
+                <div class="how-icon-row">
+                    <div class="how-card-icon step-1"><span class="icon"><svg><use href="#ico-edit"/></svg></span></div>
+                    <span class="how-num">01</span>
+                </div>
+                <h3>Inserisci i dati</h3>
+                <p>Età, famiglia, ISEE e situazione abitativa. Solo l'essenziale, niente di più.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon-row">
+                    <div class="how-card-icon step-2"><span class="icon"><svg><use href="#ico-zap"/></svg></span></div>
+                    <span class="how-num">02</span>
+                </div>
+                <h3>Analisi istantanea</h3>
+                <p>Confrontiamo la tua situazione con tutti i bonus attivi, nazionali e regionali.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon-row">
+                    <div class="how-card-icon step-3"><span class="icon"><svg><use href="#ico-list"/></svg></span></div>
+                    <span class="how-num">03</span>
+                </div>
+                <h3>Risultati chiari</h3>
+                <p>Lista personalizzata con importi, requisiti e istruzioni passo per passo.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon-row">
+                    <div class="how-card-icon step-4"><span class="icon"><svg><use href="#ico-printer"/></svg></span></div>
+                    <span class="how-num">04</span>
+                </div>
+                <h3>Porta al CAF</h3>
+                <p>Stampa il report con documenti e fonti ufficiali. Il patronato fa il resto.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWS -->
+<section class="news">
+    <div class="container">
+        <div class="section-header">
+            <h2>Novità 2025</h2>
+            <p>Le misure nuove o modificate dalla Legge di Bilancio.</p>
+        </div>
+        <div class="news-grid">
+            <div class="news-card">
+                <span class="news-badge nuovo">
+                    <span class="icon"><svg><use href="#ico-zap"/></svg></span> Nuovo
+                </span>
+                <h3>Carta Nuovi Nati</h3>
+                <p>€1.000 per ogni figlio nato dal 2025. ISEE fino a €40.000. Novità dalla Legge di Bilancio.</p>
+            </div>
+            <div class="news-card">
+                <span class="news-badge modificato">
+                    <span class="icon"><svg><use href="#ico-alert"/></svg></span> Modificato
+                </span>
+                <h3>Ristrutturazione al 36%</h3>
+                <p>Per le seconde case, la detrazione scende dal 50% al 36%. Prima casa resta al 50%.</p>
+            </div>
+            <div class="news-card">
+                <span class="news-badge modificato">
+                    <span class="icon"><svg><use href="#ico-alert"/></svg></span> Modificato
+                </span>
+                <h3>Assegno Unico rivalutato</h3>
+                <p>Importi adeguati all'inflazione ISTAT. Maggiorazioni confermate per famiglie numerose.</p>
+            </div>
+            <div class="news-card">
+                <span class="news-badge nuovo">
+                    <span class="icon"><svg><use href="#ico-zap"/></svg></span> Nuovo
+                </span>
+                <h3>Bonus Psicologo confermato</h3>
+                <p>Rifinanziato per il 2025. Fino a €1.500 per percorsi di psicoterapia.</p>
+            </div>
+            <div class="news-card">
+                <span class="news-badge modificato">
+                    <span class="icon"><svg><use href="#ico-alert"/></svg></span> Modificato
+                </span>
+                <h3>Superbonus al 65%</h3>
+                <p>Solo per lavori già avviati su condomini. Fine sconto in fattura per nuove pratiche.</p>
+            </div>
+            <div class="news-card">
+                <span class="news-badge nuovo">
+                    <span class="icon"><svg><use href="#ico-zap"/></svg></span> Nuovo
+                </span>
+                <h3>Bonus Elettrodomestici</h3>
+                <p>Contributo per sostituzione in classe A. Fino a €200 con ISEE sotto €25.000.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <h2>Cosa dicono le famiglie</h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="test-card">
+                <div class="test-stars">
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                </div>
+                <p class="test-quote">Non sapevamo di avere diritto all'Assegno Unico con quell'importo. Abbiamo scoperto 4 bonus e risparmiamo oltre 3.200 euro l'anno.</p>
+                <hr class="test-divider">
+                <div class="test-author">
+                    <div class="test-avatar"><span class="icon"><svg><use href="#ico-user"/></svg></span></div>
+                    <div>
+                        <div class="test-name">Maria R.</div>
+                        <div class="test-info">Roma · famiglia con 2 figli</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <div class="test-stars">
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                </div>
+                <p class="test-quote">Ho caricato l'ISEE, risposto a 4 domande, e in 2 minuti avevo tutto chiaro. Ho stampato il report e l'ho portato al CAF.</p>
+                <hr class="test-divider">
+                <div class="test-author">
+                    <div class="test-avatar"><span class="icon"><svg><use href="#ico-user"/></svg></span></div>
+                    <div>
+                        <div class="test-name">Ahmed K.</div>
+                        <div class="test-info">Milano · lavoratore dipendente</div>
+                    </div>
+                </div>
+            </div>
+            <div class="test-card">
+                <div class="test-stars">
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                    <span class="icon"><svg><use href="#ico-star"/></svg></span>
+                </div>
+                <p class="test-quote">Il mio CAF non mi aveva parlato del Bonus Psicologo. Qui l'ho trovato subito con tutti i documenti necessari.</p>
+                <hr class="test-divider">
+                <div class="test-author">
+                    <div class="test-avatar"><span class="icon"><svg><use href="#ico-user"/></svg></span></div>
+                    <div>
+                        <div class="test-name">Giulia T.</div>
+                        <div class="test-info">Napoli · studentessa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="privacy">
+    <div class="container">
+        <h2>I tuoi dati restano tuoi</h2>
+        <div class="privacy-grid">
+            <div class="privacy-item">
+                <div class="privacy-icon"><span class="icon"><svg><use href="#ico-database-off"/></svg></span></div>
+                <h4>Nessun database</h4>
+                <p>I dati esistono solo nella tua sessione browser. Al refresh della pagina, spariscono. Non salviamo nulla.</p>
+            </div>
+            <div class="privacy-item">
+                <div class="privacy-icon"><span class="icon"><svg><use href="#ico-eye-off"/></svg></span></div>
+                <h4>Zero tracking</h4>
+                <p>Nessun cookie, nessun pixel di tracciamento, nessuna profilazione. Mai. Punto.</p>
+            </div>
+            <div class="privacy-item">
+                <div class="privacy-icon"><span class="icon"><svg><use href="#ico-code"/></svg></span></div>
+                <h4>Codice aperto</h4>
+                <p>Il sorgente è su GitHub sotto licenza AGPL-3.0. Chiunque può verificare cosa fa il codice.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA FINALE -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Scopri quanto potresti risparmiare</h2>
+        <p>In 2 minuti sai esattamente a quali bonus hai diritto e come fare domanda.</p>
+        <a href="#wizard" class="btn btn-primary">
+            Inizia la verifica gratuita
+            <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer-inner">
+        <div class="footer-left">
+            <a href="/" class="logo">
+                <div class="logo-mark">B</div>
+                <span class="logo-text">BonusPerMe</span>
+            </a>
+            <p>Progetto gratuito e open source. Non siamo un CAF né un patronato. Le informazioni sono a scopo orientativo.</p>
+        </div>
+        <div class="footer-right">
+            <div class="footer-links">
+                <a href="#">
+                    <span class="icon"><svg><use href="#ico-github"/></svg></span> GitHub
+                </a>
+                <a href="#">
+                    <span class="icon"><svg><use href="#ico-alert"/></svg></span> Segnala errore
+                </a>
+                <a href="#">
+                    <span class="icon"><svg><use href="#ico-shield"/></svg></span> Privacy
+                </a>
+                <a href="/per-caf">
+                    <span class="icon"><svg><use href="#ico-home"/></svg></span> Per i CAF
+                </a>
+            </div>
+            <div class="footer-badges">
+                GDPR <span>·</span> Zero Cookie <span>·</span> Server EU <span>·</span> Open Source
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* Language dropdown */
+function toggleLangDropdown() {
+    var wrap = document.getElementById('langWrap');
+    var isOpen = wrap.classList.toggle('open');
+    document.getElementById('langTrigger').setAttribute('aria-expanded', isOpen);
+    if (isOpen) {
+        setTimeout(function() {
+            document.addEventListener('click', closeLangOutside, true);
+        }, 0);
+    }
+}
+function closeLangOutside(e) {
+    var wrap = document.getElementById('langWrap');
+    if (!wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        document.getElementById('langTrigger').setAttribute('aria-expanded', 'false');
+        document.removeEventListener('click', closeLangOutside, true);
+    }
+}
+function selectLang(lang) {
+    document.querySelectorAll('.lang-option').forEach(function(o) {
+        o.classList.toggle('active', o.dataset.lang === lang);
+    });
+    var selected = document.querySelector('.lang-option[data-lang="'+lang+'"]');
+    if (selected) {
+        document.getElementById('langLabel').textContent = lang.toUpperCase();
+        var flagClasses = document.getElementById('langFlag').className.split(' ').filter(function(c) { return c === 'flag'; });
+        document.getElementById('langFlag').className = flagClasses.join(' ') + ' flag-' + lang;
+    }
+    document.getElementById('langWrap').classList.remove('open');
+    document.getElementById('langTrigger').setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', closeLangOutside, true);
+    /* Here you would call your i18n system: setLanguage(lang) */
+}
+
+/* Quick estimate calculator */
+function updateEstimate() {
+    var figli = parseInt(document.getElementById('est-figli').value);
+    var fascia = document.getElementById('est-isee').value;
+    var total = 0;
+    if (figli > 0) {
+        var rates = { 'sotto15k': 200, '15-25k': 150, '25-40k': 100, 'sopra40k': 57, 'noisee': 57 };
+        total += figli * (rates[fascia] || 57) * 12;
+    }
+    if (figli > 0 && (fascia === 'sotto15k' || fascia === '15-25k')) {
+        var nido = { 'sotto15k': 3600, '15-25k': 2500 };
+        total += nido[fascia] || 0;
+    }
+    if (fascia === 'sotto15k') total += 500;
+    var formatted = total > 0
+        ? 'Fino a €' + total.toLocaleString('it-IT') + '/anno'
+        : 'Inserisci i dati per la stima';
+    document.getElementById('est-result').textContent = formatted;
+}
+document.getElementById('est-figli').addEventListener('change', updateEstimate);
+document.getElementById('est-isee').addEventListener('change', updateEstimate);
+updateEstimate();
+</script>
+</body>
+</html>

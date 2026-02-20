@@ -1,0 +1,44 @@
+# Binaries
+bonusperme
+bonus360
+*.exe
+*.out
+__debug_bin*
+
+# Data files (generati a runtime)
+counter.json
+*/counter.json
+analytics.csv
+emails.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.code-workspace
+
+# Claude Code
+/.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# Environment
+.env
+.env.local
+.env.production
+!.env.example
+
+# Go
+vendor/
+
+# Temp / logs
+*.log
+*.tmp
+*.bak
+
+# SSL certs (deploy only, never commit)
+ssl/*.pem

@@ -1,0 +1,30 @@
+.git
+.gitignore
+.env
+.env.example
+.claude/
+.idea/
+.vscode/
+.DS_Store
+
+# Binaries
+bonusperme
+bonus360
+*.exe
+*.out
+__debug_bin*
+
+# Data files
+counter.json
+emails.txt
+analytics.csv
+*.log
+
+# Docs
+*.md
+LICENSE
+
+# EB config (host-level, not needed in container)
+ssl/
+.ebextensions/
+.platform/

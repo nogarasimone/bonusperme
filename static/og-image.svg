@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1B3A54"/>
+      <stop offset="100%" stop-color="#2C5F7C"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="80" width="56" height="56" rx="10" fill="rgba(255,255,255,0.15)"/>
+  <text x="108" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#FFFFFF">B</text>
+  <text x="150" y="120" font-family="Georgia, serif" font-size="32" fill="#FFFFFF" opacity="0.9">BonusPerMe</text>
+  <text x="80" y="240" font-family="Georgia, serif" font-size="52" fill="#FFFFFF" font-weight="bold">Scopri tutti i bonus e</text>
+  <text x="80" y="305" font-family="Georgia, serif" font-size="52" fill="#FFFFFF" font-weight="bold">agevolazioni per la</text>
+  <text x="80" y="370" font-family="Georgia, serif" font-size="52" fill="#FFFFFF" font-weight="bold">tua famiglia</text>
+  <text x="80" y="440" font-family="sans-serif" font-size="22" fill="rgba(255,255,255,0.7)">Calcola gratis quali bonus ti spettano. 40+ bonus, 7 lingue, nessuna registrazione.</text>
+  <text x="80" y="540" font-family="sans-serif" font-size="18" fill="#F4F3EE">&#x2713; Gratuito    &#x2713; 40+ bonus    &#x2713; 7 lingue    &#x2713; Nessun dato salvato</text>
+  <text x="1120" y="590" text-anchor="end" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.5)">bonusperme.it</text>
+</svg>

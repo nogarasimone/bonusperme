@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude / AI
+.claude/
+
+# Local env (secrets configured in EB console)
+.env
+.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local build artifacts
+bonusperme
+bonus360
+*.exe
+*.out
+__debug_bin*
+
+# Local data files
+counter.json
+emails.txt
+analytics.csv
+*.log
+
+# Docs (not needed at runtime)
+*.md
+LICENSE
+CONTRIBUTING.md
+CHANGELOG.md
+
+# CI (not needed for EB deploy)
+.github/
+
+# Docker Compose (EB uses Dockerfile directly)
+docker-compose.yml
