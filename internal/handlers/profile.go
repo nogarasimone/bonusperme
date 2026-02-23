@@ -10,43 +10,57 @@ import (
 
 // compactProfile holds only non-identifying fields for the profile code.
 type compactProfile struct {
-	Eta              int     `json:"e,omitempty"`
-	NumeroFigli      int     `json:"f,omitempty"`
-	FigliMinorenni   int     `json:"fm,omitempty"`
-	FigliUnder3      int     `json:"f3,omitempty"`
-	Over65           int     `json:"o,omitempty"`
-	ISEE             float64 `json:"i,omitempty"`
-	RedditoAnnuo     float64 `json:"r,omitempty"`
-	Residenza        string  `json:"re,omitempty"`
-	StatoCivile      string  `json:"sc,omitempty"`
-	Occupazione      string  `json:"oc,omitempty"`
-	Disabilita       bool    `json:"d,omitempty"`
-	Affittuario      bool    `json:"af,omitempty"`
-	PrimaAbitazione  bool    `json:"pa,omitempty"`
-	RistrutturazCasa bool    `json:"rc,omitempty"`
-	Studente         bool    `json:"st,omitempty"`
-	NuovoNato2026    bool    `json:"nn,omitempty"`
+	Eta                        int     `json:"e,omitempty"`
+	NumeroFigli                int     `json:"f,omitempty"`
+	FigliMinorenni             int     `json:"fm,omitempty"`
+	FigliUnder3                int     `json:"f3,omitempty"`
+	FigliUnder1                int     `json:"f1,omitempty"`
+	FigliMaggiorenni           int     `json:"fg,omitempty"`
+	Over65                     int     `json:"o,omitempty"`
+	ISEE                       float64 `json:"i,omitempty"`
+	RedditoAnnuo               float64 `json:"r,omitempty"`
+	Residenza                  string  `json:"re,omitempty"`
+	StatoCivile                string  `json:"sc,omitempty"`
+	Occupazione                string  `json:"oc,omitempty"`
+	Disabilita                 bool    `json:"d,omitempty"`
+	Affittuario                bool    `json:"af,omitempty"`
+	PrimaAbitazione            bool    `json:"pa,omitempty"`
+	RistrutturazCasa           bool    `json:"rc,omitempty"`
+	Studente                   bool    `json:"st,omitempty"`
+	NuovoNato2026              bool    `json:"nn,omitempty"`
+	EntrambiGenitoriLavoratori bool    `json:"gl,omitempty"`
+	DisabilitaFigli            string  `json:"df,omitempty"`
+	FigliDisabili              int     `json:"fd,omitempty"`
+	MadreUnder21               bool    `json:"mu,omitempty"`
 }
 
 func toCompact(p models.UserProfile) compactProfile {
 	return compactProfile{
 		Eta: p.Eta, NumeroFigli: p.NumeroFigli, FigliMinorenni: p.FigliMinorenni,
-		FigliUnder3: p.FigliUnder3, Over65: p.Over65, ISEE: p.ISEE,
+		FigliUnder3: p.FigliUnder3, FigliUnder1: p.FigliUnder1, FigliMaggiorenni: p.FigliMaggiorenni,
+		Over65: p.Over65, ISEE: p.ISEE,
 		RedditoAnnuo: p.RedditoAnnuo, Residenza: p.Residenza, StatoCivile: p.StatoCivile,
 		Occupazione: p.Occupazione, Disabilita: p.Disabilita, Affittuario: p.Affittuario,
 		PrimaAbitazione: p.PrimaAbitazione, RistrutturazCasa: p.RistrutturazCasa,
 		Studente: p.Studente, NuovoNato2026: p.NuovoNato2026,
+		EntrambiGenitoriLavoratori: p.EntrambiGenitoriLavoratori,
+		DisabilitaFigli: p.DisabilitaFigli, FigliDisabili: p.FigliDisabili,
+		MadreUnder21: p.MadreUnder21,
 	}
 }
 
 func fromCompact(c compactProfile) models.UserProfile {
 	return models.UserProfile{
 		Eta: c.Eta, NumeroFigli: c.NumeroFigli, FigliMinorenni: c.FigliMinorenni,
-		FigliUnder3: c.FigliUnder3, Over65: c.Over65, ISEE: c.ISEE,
+		FigliUnder3: c.FigliUnder3, FigliUnder1: c.FigliUnder1, FigliMaggiorenni: c.FigliMaggiorenni,
+		Over65: c.Over65, ISEE: c.ISEE,
 		RedditoAnnuo: c.RedditoAnnuo, Residenza: c.Residenza, StatoCivile: c.StatoCivile,
 		Occupazione: c.Occupazione, Disabilita: c.Disabilita, Affittuario: c.Affittuario,
 		PrimaAbitazione: c.PrimaAbitazione, RistrutturazCasa: c.RistrutturazCasa,
 		Studente: c.Studente, NuovoNato2026: c.NuovoNato2026,
+		EntrambiGenitoriLavoratori: c.EntrambiGenitoriLavoratori,
+		DisabilitaFigli: c.DisabilitaFigli, FigliDisabili: c.FigliDisabili,
+		MadreUnder21: c.MadreUnder21,
 	}
 }
 

@@ -1496,12 +1496,43 @@
             <input type="number" id="wiz-figli-u3" min="0" max="20" value="0">
           </div>
           <div class="wiz-field">
+            <label for="wiz-figli-u1">Figli sotto 1 anno <span class="optional-label">(opzionale)</span></label>
+            <input type="number" id="wiz-figli-u1" min="0" max="20" value="0">
+          </div>
+        </div>
+        <div class="wiz-row">
+          <div class="wiz-field">
+            <label for="wiz-figli-18-21">Figli 18-21 anni <span class="optional-label">(opzionale)</span></label>
+            <input type="number" id="wiz-figli-18-21" min="0" max="20" value="0">
+          </div>
+          <div class="wiz-field">
             <label for="wiz-over65" data-i18n="label.over65">Over 65 nel nucleo <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-over65" min="0" max="10" value="0">
           </div>
         </div>
+        <div class="wiz-row">
+          <div class="wiz-field">
+            <label for="wiz-figli-disabili">Figli con disabilità certificata <span class="optional-label">(opzionale)</span></label>
+            <input type="number" id="wiz-figli-disabili" min="0" max="20" value="0">
+          </div>
+          <div class="wiz-field" id="wiz-disabilita-figli-wrap" style="display:none">
+            <label for="wiz-disabilita-figli">Grado disabilità figli</label>
+            <select id="wiz-disabilita-figli">
+              <option value="">Nessuna</option>
+              <option value="media">Media</option>
+              <option value="grave">Grave</option>
+              <option value="non_autosufficienza">Non autosufficienza</option>
+            </select>
+          </div>
+        </div>
+        <label class="wiz-check">
+          <input type="checkbox" id="wiz-dual-income"> <span>Entrambi i genitori lavorano?</span>
+        </label>
         <label class="wiz-check">
           <input type="checkbox" id="wiz-disabilita"> <span data-i18n="label.disabilita">Componente con disabilità nel nucleo</span>
+        </label>
+        <label class="wiz-check">
+          <input type="checkbox" id="wiz-madre-u21"> <span>Madre under 21?</span>
         </label>
         <label class="wiz-check">
           <input type="checkbox" id="wiz-nuovo-nato"> <span data-i18n="label.nuovo_nato">Nuovo nato nel 2026</span>
@@ -1898,9 +1929,14 @@
       var figli = parseInt(document.getElementById('wiz-figli').value);
       var figliMin = parseInt(document.getElementById('wiz-figli-min').value) || 0;
       var figliU3 = parseInt(document.getElementById('wiz-figli-u3').value) || 0;
+      var figliU1 = parseInt(document.getElementById('wiz-figli-u1').value) || 0;
+      var figliMagg = parseInt(document.getElementById('wiz-figli-18-21').value) || 0;
+      var figliDisab = parseInt(document.getElementById('wiz-figli-disabili').value) || 0;
       if (isNaN(figli) || figli < 0) { markFieldError('wiz-figli', 'Valore non valido'); valid = false; }
-      if (figliMin > figli) { markFieldError('wiz-figli-min', 'Non può superare il numero di figli'); valid = false; }
+      if (figliMin + figliMagg > figli) { markFieldError('wiz-figli-min', 'Minorenni + maggiorenni non possono superare il totale figli'); valid = false; }
       if (figliU3 > figliMin) { markFieldError('wiz-figli-u3', 'Non può superare i figli minorenni'); valid = false; }
+      if (figliU1 > figliU3) { markFieldError('wiz-figli-u1', 'Non può superare i figli under 3'); valid = false; }
+      if (figliDisab > figli) { markFieldError('wiz-figli-disabili', 'Non può superare il numero di figli'); valid = false; }
     } else if (stepNum === 2) {
       if (!document.getElementById('wiz-residenza').value) { markFieldError('wiz-residenza', 'Seleziona la regione'); valid = false; }
     }
@@ -1908,9 +1944,20 @@
     return valid;
   }
   // Auto-clear errors on input
-  ['wiz-eta','wiz-stato-civile','wiz-occupazione','wiz-figli','wiz-figli-min','wiz-figli-u3','wiz-residenza','wiz-isee','wiz-reddito'].forEach(function(id){
+  ['wiz-eta','wiz-stato-civile','wiz-occupazione','wiz-figli','wiz-figli-min','wiz-figli-u3','wiz-figli-u1','wiz-figli-18-21','wiz-figli-disabili','wiz-disabilita-figli','wiz-residenza','wiz-isee','wiz-reddito'].forEach(function(id){
     var el=document.getElementById(id);if(el){el.addEventListener('input',function(){clearFieldError(id)});el.addEventListener('change',function(){clearFieldError(id)})}
   });
+
+  // Toggle disability grade field visibility based on figli_disabili count
+  (function() {
+    var fd = document.getElementById('wiz-figli-disabili');
+    var wrap = document.getElementById('wiz-disabilita-figli-wrap');
+    if (fd && wrap) {
+      function toggleDisab() { wrap.style.display = (parseInt(fd.value) || 0) > 0 ? '' : 'none'; }
+      fd.addEventListener('input', toggleDisab);
+      fd.addEventListener('change', toggleDisab);
+    }
+  })();
 
   function wizNext() {
     if (!validateWizardStep(wizStep)) return;
@@ -1930,6 +1977,8 @@
       numero_figli: parseInt(document.getElementById('wiz-figli').value) || 0,
       figli_minorenni: parseInt(document.getElementById('wiz-figli-min').value) || 0,
       figli_under3: parseInt(document.getElementById('wiz-figli-u3').value) || 0,
+      figli_under1: parseInt(document.getElementById('wiz-figli-u1').value) || 0,
+      figli_maggiorenni: parseInt(document.getElementById('wiz-figli-18-21').value) || 0,
       disabilita: document.getElementById('wiz-disabilita').checked,
       over65: parseInt(document.getElementById('wiz-over65').value) || 0,
       isee: parseFloat(document.getElementById('wiz-isee').value) || 0,
@@ -1938,7 +1987,11 @@
       prima_abitazione: document.getElementById('wiz-prima-abitazione').checked,
       ristrutturaz_casa: document.getElementById('wiz-ristrutturazione').checked,
       studente: document.getElementById('wiz-studente').checked,
-      nuovo_nato_2026: document.getElementById('wiz-nuovo-nato').checked
+      nuovo_nato_2026: document.getElementById('wiz-nuovo-nato').checked,
+      entrambi_genitori_lavoratori: document.getElementById('wiz-dual-income').checked,
+      figli_disabili: parseInt(document.getElementById('wiz-figli-disabili').value) || 0,
+      disabilita_figli: document.getElementById('wiz-disabilita-figli').value,
+      madre_under21: document.getElementById('wiz-madre-u21').checked
     };
   }
 

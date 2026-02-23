@@ -125,8 +125,8 @@ func GetAllBonus() []models.Bonus {
 		// ═══════════════════════════════════════════════════════
 		{
 			ID: "assegno-unico", Nome: "Assegno Unico Universale", Categoria: "famiglia",
-			Descrizione: "Assegno mensile per ogni figlio a carico fino a 21 anni. Importo da €57 a €199,4/mese per figlio in base all'ISEE, con maggiorazioni per famiglie numerose e figli piccoli.",
-			Importo: "da €57 a €199,4/mese per figlio", Scadenza: "Domanda entro il 28 febbraio per arretrati",
+			Descrizione: "Assegno mensile per ogni figlio a carico fino a 21 anni. Importo da €58,30 a €203,80/mese per figlio in base all'ISEE, con maggiorazioni per famiglie numerose, figli piccoli, genitori entrambi lavoratori e figli disabili.",
+			Importo: "da €58,30 a €203,80/mese per figlio", Scadenza: "Domanda entro il 28 febbraio per arretrati",
 			Requisiti:       []string{"Figli a carico sotto i 21 anni", "Residenza in Italia", "ISEE valido (facoltativo)"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Assegno Unico'", "Compilare domanda online"},
 			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Codici fiscali di tutti i figli", "Coordinate bancarie/postali (IBAN)"},
@@ -140,7 +140,7 @@ func GetAllBonus() []models.Bonus {
 			Ente:                 "INPS",
 			FonteURL:             "https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.assegno-unico-e-universale-per-i-figli-a-carico-55984.assegno-unico-e-universale-per-i-figli-a-carico.html",
 			FonteNome:            "INPS",
-			RiferimentiNormativi: []string{"D.Lgs. 29 dicembre 2021, n. 230", "Circolare INPS n. 33 del 4 febbraio 2025 — Aggiornamento importi"},
+			RiferimentiNormativi: []string{"D.Lgs. 29 dicembre 2021, n. 230", "Circolare INPS n. 7 del 30 gennaio 2026 — Rivalutazione importi +1,4%"},
 			UltimoAggiornamento:  "19 febbraio 2026",
 			Stato:                "attivo",
 		},
@@ -862,31 +862,125 @@ func calcPersoFinora(annualSaving float64) string {
 	return formatEuro(perso)
 }
 
+// calcAssegnoUnicoMensile calculates the total monthly amount for Assegno Unico 2026.
+// Values from Circolare INPS n. 7 del 30 gennaio 2026 (rivalutazione +1,4%).
+func calcAssegnoUnicoMensile(profile models.UserProfile) float64 {
+	isee := profile.ISEE
+
+	// --- ISEE thresholds 2026 ---
+	const (
+		iseeMin = 17468.51
+		iseeMax = 46582.71
+	)
+
+	// --- Base per figlio minorenne ---
+	var perFiglioMinorenne float64
+	switch {
+	case isee > 0 && isee <= iseeMin:
+		perFiglioMinorenne = 203.80
+	case isee > iseeMin && isee <= iseeMax:
+		perFiglioMinorenne = 203.80 - (isee-iseeMin)/(iseeMax-iseeMin)*(203.80-58.30)
+	default:
+		perFiglioMinorenne = 58.30
+	}
+
+	// --- Base per figlio maggiorenne (18-21) ---
+	var perFiglioMaggiorenne float64
+	switch {
+	case isee > 0 && isee <= iseeMin:
+		perFiglioMaggiorenne = 99.10
+	case isee > iseeMin && isee <= iseeMax:
+		perFiglioMaggiorenne = 99.10 - (isee-iseeMin)/(iseeMax-iseeMin)*(99.10-29.10)
+	default:
+		perFiglioMaggiorenne = 29.10
+	}
+
+	// Number of minors: if FigliMinorenni is set use it, otherwise assume all children are minors
+	figli := profile.NumeroFigli
+	minorenni := profile.FigliMinorenni
+	maggiorenni := profile.FigliMaggiorenni
+	if minorenni == 0 && maggiorenni == 0 && figli > 0 {
+		minorenni = figli
+	}
+
+	monthly := perFiglioMinorenne*float64(minorenni) + perFiglioMaggiorenne*float64(maggiorenni)
+
+	// --- Maggiorazione figli sotto 1 anno: +50% dell'importo base ---
+	if profile.FigliUnder1 > 0 {
+		monthly += perFiglioMinorenne * 0.50 * float64(profile.FigliUnder1)
+	}
+
+	// --- Maggiorazione figli 1-3 anni in nuclei con 3+ figli e ISEE ≤ soglia max ---
+	if figli >= 3 && (isee == 0 || isee <= iseeMax) {
+		// Figli 1-3 = FigliUnder3 - FigliUnder1 (those between 1 and 3)
+		figli1a3 := profile.FigliUnder3 - profile.FigliUnder1
+		if figli1a3 < 0 {
+			figli1a3 = 0
+		}
+		monthly += perFiglioMinorenne * 0.50 * float64(figli1a3)
+	}
+
+	// --- Maggiorazione dal 3° figlio in poi ---
+	if figli >= 3 {
+		var magg3Figlio float64
+		switch {
+		case isee > 0 && isee <= iseeMin:
+			magg3Figlio = 99.10
+		case isee > iseeMin && isee <= iseeMax:
+			magg3Figlio = 99.10 - (isee-iseeMin)/(iseeMax-iseeMin)*(99.10-17.40)
+		default:
+			magg3Figlio = 17.40
+		}
+		monthly += magg3Figlio * float64(figli-2)
+	}
+
+	// --- Maggiorazione nuclei con 4+ figli: €150/mese forfettario per nucleo ---
+	if figli >= 4 {
+		monthly += 150.0
+	}
+
+	// --- Maggiorazione entrambi genitori lavoratori ---
+	if profile.EntrambiGenitoriLavoratori {
+		var maggiorazioneLav float64
+		switch {
+		case isee > 0 && isee <= iseeMin:
+			maggiorazioneLav = 34.90
+		case isee > iseeMin && isee <= iseeMax:
+			maggiorazioneLav = 34.90 - (isee-iseeMin)/(iseeMax-iseeMin)*34.90
+		default:
+			maggiorazioneLav = 0
+		}
+		// Per figlio minorenne
+		monthly += maggiorazioneLav * float64(minorenni)
+	}
+
+	// --- Maggiorazione figli disabili minorenni ---
+	if profile.FigliDisabili > 0 && profile.DisabilitaFigli != "" {
+		var maggiorazioneDisab float64
+		switch profile.DisabilitaFigli {
+		case "non_autosufficienza":
+			maggiorazioneDisab = 122.30
+		case "grave":
+			maggiorazioneDisab = 110.60
+		case "media":
+			maggiorazioneDisab = 99.10
+		}
+		monthly += maggiorazioneDisab * float64(profile.FigliDisabili)
+	}
+
+	// --- Maggiorazione madre under 21: +€23,30/mese per figlio ---
+	if profile.MadreUnder21 {
+		monthly += 23.30 * float64(figli)
+	}
+
+	return math.Round(monthly*100) / 100
+}
+
 func calcImportoReale(bonusID string, isee float64, profile models.UserProfile) string {
 	switch bonusID {
 	case "assegno-unico":
-		var perFiglio float64
-		switch {
-		case isee > 0 && isee <= 17090.61:
-			perFiglio = 199.4
-		case isee > 17090.61 && isee <= 45574.96:
-			perFiglio = 199.4 - (isee-17090.61)/(45574.96-17090.61)*(199.4-57)
-		default:
-			perFiglio = 57
-		}
-
-		under3Bonus := 91.40 * float64(profile.FigliUnder3)
-
-		var thirdChildBonus float64
-		if profile.NumeroFigli >= 3 {
-			thirdChildBonus = 17.10 * float64(profile.NumeroFigli-2)
-		}
-
-		monthly := math.Round(perFiglio*float64(profile.NumeroFigli)*100) / 100
-		monthly += under3Bonus + thirdChildBonus
-		monthly = math.Round(monthly*100) / 100
+		monthly := calcAssegnoUnicoMensile(profile)
 		yearly := math.Round(monthly*12*100) / 100
-
 		return fmt.Sprintf("€%.2f/mese (€%.2f/anno)", monthly, yearly)
 
 	case "bonus-nido":
@@ -953,7 +1047,7 @@ func calcScore(id string, p models.UserProfile) int {
 	switch id {
 	case "assegno-unico":
 		if p.NumeroFigli > 0 {
-			if p.ISEE > 0 && p.ISEE <= 17000 {
+			if p.ISEE > 0 && p.ISEE <= 17468.51 {
 				return 98
 			}
 			return 85
@@ -1097,11 +1191,7 @@ func calcScore(id string, p models.UserProfile) int {
 func estimateSaving(id string, p models.UserProfile) float64 {
 	switch id {
 	case "assegno-unico":
-		base := 1500.0
-		if p.ISEE > 0 && p.ISEE <= 17000 {
-			base = 2400.0
-		}
-		return base * float64(p.NumeroFigli)
+		return math.Round(calcAssegnoUnicoMensile(p)*12*100) / 100
 	case "bonus-nido":
 		if p.ISEE <= 25000 {
 			return 3600

@@ -11,6 +11,8 @@ type UserProfile struct {
 	NumeroFigli      int     `json:"numero_figli"`
 	FigliMinorenni   int     `json:"figli_minorenni"`
 	FigliUnder3      int     `json:"figli_under3"`
+	FigliUnder1      int     `json:"figli_under1"`
+	FigliMaggiorenni int     `json:"figli_maggiorenni"`
 	Disabilita       bool    `json:"disabilita"`
 	Over65           int     `json:"over65"`
 	ISEE             float64 `json:"isee"`
@@ -21,6 +23,10 @@ type UserProfile struct {
 	Studente         bool    `json:"studente"`
 	NuovoNato2026    bool    `json:"nuovo_nato_2026"`
 	ISEESimulato     float64 `json:"isee_simulato,omitempty"`
+	EntrambiGenitoriLavoratori bool   `json:"entrambi_genitori_lavoratori"`
+	DisabilitaFigli            string `json:"disabilita_figli"`
+	FigliDisabili              int    `json:"figli_disabili"`
+	MadreUnder21               bool   `json:"madre_under21"`
 }
 
 type FAQ struct {

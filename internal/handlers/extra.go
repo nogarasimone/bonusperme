@@ -124,6 +124,10 @@ var validOccupazione = map[string]bool{
 	"casalinga": true, "inoccupato": true,
 }
 
+var validDisabilitaFigli = map[string]bool{
+	"": true, "media": true, "grave": true, "non_autosufficienza": true,
+}
+
 func validateProfile(p models.UserProfile) (string, bool) {
 	if p.Eta < 18 || p.Eta > 120 {
 		return "Eta non valida (18-120)", false
@@ -143,17 +147,35 @@ func validateProfile(p models.UserProfile) (string, bool) {
 	if p.FigliUnder3 < 0 || p.FigliUnder3 > 20 {
 		return "Figli under 3 non valido (0-20)", false
 	}
+	if p.FigliUnder1 < 0 || p.FigliUnder1 > 20 {
+		return "Figli under 1 non valido (0-20)", false
+	}
+	if p.FigliMaggiorenni < 0 || p.FigliMaggiorenni > 20 {
+		return "Figli maggiorenni non valido (0-20)", false
+	}
+	if p.FigliDisabili < 0 || p.FigliDisabili > 20 {
+		return "Figli disabili non valido (0-20)", false
+	}
 	if p.Over65 < 0 || p.Over65 > 10 {
 		return "Over 65 non valido (0-10)", false
 	}
 	// Cross-field checks
-	if p.FigliMinorenni > p.NumeroFigli {
-		return "Figli minorenni non puo superare numero figli", false
+	if p.FigliUnder1 > p.FigliUnder3 {
+		return "Figli under 1 non puo superare figli under 3", false
 	}
 	if p.FigliUnder3 > p.FigliMinorenni {
 		return "Figli under 3 non puo superare figli minorenni", false
 	}
+	if p.FigliMinorenni+p.FigliMaggiorenni > p.NumeroFigli {
+		return "Figli minorenni + maggiorenni non puo superare numero figli", false
+	}
+	if p.FigliDisabili > p.NumeroFigli {
+		return "Figli disabili non puo superare numero figli", false
+	}
 	// Whitelist checks
+	if !validDisabilitaFigli[p.DisabilitaFigli] {
+		return "Grado disabilita figli non valido", false
+	}
 	if !validResidenza[p.Residenza] {
 		return "Regione non valida", false
 	}
